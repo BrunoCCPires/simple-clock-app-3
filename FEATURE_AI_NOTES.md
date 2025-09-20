@@ -1,1 +1,1 @@
-Added full viewport height/width styles and background color
+Updated App.tsx to show clocks for Brazil (São Paulo) and US West Coast (Los Angeles) time zones. Added basic styling in App.css. No additional dependencies required as we're using built-in JavaScript Date internationalization.

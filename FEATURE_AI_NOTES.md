@@ -1,0 +1,1 @@
+Updated App.tsx to create a counter starting at 555 with increment, decrement and reset functionality

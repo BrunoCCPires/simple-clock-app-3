@@ -1,0 +1,1 @@
+Basic cookie clicker implementation with auto-clickers and persistent storage using localStorage. Click the cookie to earn cookies, buy auto-clickers to earn cookies automatically. Progress is saved automatically.

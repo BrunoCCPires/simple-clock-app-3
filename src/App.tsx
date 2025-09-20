@@ -1,34 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [cookies, setCookies] = useState(() => {
+    const saved = localStorage.getItem('cookies')
+    return saved ? parseInt(saved) : 0
+  })
+  const [cps, setCps] = useState(() => {
+    const saved = localStorage.getItem('cps')
+    return saved ? parseInt(saved) : 0
+  })
+  const [autoClickerCost, setAutoClickerCost] = useState(() => {
+    const saved = localStorage.getItem('autoClickerCost')
+    return saved ? parseInt(saved) : 10
+  })
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCookies(c => c + cps)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [cps])
+
+  useEffect(() => {
+    localStorage.setItem('cookies', cookies.toString())
+    localStorage.setItem('cps', cps.toString())
+    localStorage.setItem('autoClickerCost', autoClickerCost.toString())
+  }, [cookies, cps, autoClickerCost])
+
+  const handleClick = () => {
+    setCookies(cookies + 1)
+  }
+
+  const buyAutoClicker = () => {
+    if (cookies >= autoClickerCost) {
+      setCookies(cookies - autoClickerCost)
+      setCps(cps + 1)
+      setAutoClickerCost(Math.floor(autoClickerCost * 1.15))
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="cookie-clicker">
+      <h1>Cookie Clicker</h1>
+      <div className="stats">
+        <p>Cookies: {cookies}</p>
+        <p>Cookies per second: {cps}</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <button className="cookie-button" onClick={handleClick}>
+        🍪
+      </button>
+      <div className="shop">
+        <h2>Shop</h2>
+        <button 
+          onClick={buyAutoClicker}
+          disabled={cookies < autoClickerCost}
+          className="shop-button"
+        >
+          Buy Auto Clicker (Cost: {autoClickerCost} cookies)
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 

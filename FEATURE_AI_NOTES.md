@@ -1,1 +1,1 @@
-Added full viewport height/width styles and background color
+Added App.css with red background styling for the clock container
